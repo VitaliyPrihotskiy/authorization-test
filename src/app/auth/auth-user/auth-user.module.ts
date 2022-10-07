@@ -1,6 +1,8 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthUserComponent } from './auth-user.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -9,7 +11,9 @@ import { AuthUserComponent } from './auth-user.component';
     AuthUserComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class AuthUserModule { }
