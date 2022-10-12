@@ -1,10 +1,10 @@
+import { ChartModule } from 'primeng/chart';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainPageComponent } from './main-page.component';
 import { MainPageRoutingModule } from './main-page-routing.module';
 import { AssesmentComponent } from './assesment/assesment.component';
 import { GraphComponent } from './graph/graph.component';
-
 
 
 @NgModule({
@@ -15,7 +15,8 @@ import { GraphComponent } from './graph/graph.component';
   ],
   imports: [
     CommonModule,
-    MainPageRoutingModule
+    MainPageRoutingModule,
+    ChartModule
   ]
 })
 export class MainPageModule { }

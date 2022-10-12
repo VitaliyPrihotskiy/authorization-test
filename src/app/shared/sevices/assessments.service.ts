@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Assesment } from '../models/assesment.model';
 import { GraphData } from '../models/graph-data.model';
@@ -18,8 +18,8 @@ export class AssessmentsService {
   }
 
   getUserAssessmentGraph(token: string, id: number): Observable<GraphData> {
-    const headers = new HttpHeaders().set( "X-Token", token);
-    const path = environment.api.userAssessmentGraph + "/" + id;
-    return this.http.get<GraphData>(path, {headers});
+    const headers = new HttpHeaders().set("X-Token", token);
+    const params = new HttpParams().set('id', id);
+    return this.http.get<GraphData>(environment.api.userAssessmentGraph, {headers,params});
   }
 }
