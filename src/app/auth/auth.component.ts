@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/sevices/auth.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { AuthInfoService } from '../shared/sevices/auth-info.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -9,7 +11,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./auth.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthComponent implements OnDestroy {
+export class AuthComponent implements OnDestroy, OnInit {
   private readonly ngUnsubscribe = new Subject<void>();
 
   form: FormGroup;
@@ -24,13 +26,23 @@ export class AuthComponent implements OnDestroy {
     return this.form.get('password') as AbstractControl;
   }
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly authInfoService: AuthInfoService,
+    private readonly router: Router
+  ) {
     this.submit = false;
-    this.form  = new FormGroup({
+    this.form = new FormGroup({
       email: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required])
     });
-   }
+  }
+
+  ngOnInit(): void {
+    if (this.authInfoService.isAuthenticated()) {
+      this.router.navigate(['main-page']);
+    }
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -50,12 +62,15 @@ export class AuthComponent implements OnDestroy {
       password: form.password,
     };
 
-    try {
-      this.authService.auth(options)
-    }
-    catch (error) {
-      this.submit = false;
-      this.errorMsg = "Wrong email or password";
-    }
+
+    this.authService.auth(options)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        () => { },
+        () => {
+          this.submit = false;
+          this.errorMsg = "Wrong email or password";
+        }
+      );
   }
 }

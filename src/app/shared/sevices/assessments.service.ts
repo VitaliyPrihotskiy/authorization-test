@@ -1,25 +1,24 @@
-import { environment } from './../../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Assesment } from '../models/assesment.model';
 import { GraphData } from '../models/graph-data.model';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
- })
+})
 export class AssessmentsService {
 
-  constructor(public http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getUserAssessments(token: string): Observable<Assesment[]> {
-    const headers = new HttpHeaders().set( "X-Token", token);
-    return this.http.get<Assesment[]>(environment.api.userAssessments, {headers});
+  getUserAssessments(): Observable<Assesment[]> {
+    return this.http.get<Assesment[]>(environment.api.userAssessments);
   }
 
-  getUserAssessmentGraph(token: string, id: number): Observable<GraphData> {
-    const headers = new HttpHeaders().set("X-Token", token);
+  getUserAssessmentGraph(id: number): Observable<GraphData> {
     const params = new HttpParams().set('id', id);
-    return this.http.get<GraphData>(environment.api.userAssessmentGraph, {headers, params});
+
+    return this.http.get<GraphData>(environment.api.userAssessmentGraph, { params });
   }
 }

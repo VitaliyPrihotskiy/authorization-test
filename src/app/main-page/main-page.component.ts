@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { USER_ROLE } from '../shared/enums/user.enums';
 import { Assesment } from '../shared/models/assesment.model';
 import { SuccessResponse } from '../shared/models/response.model';
 import { User } from '../shared/models/user.model';
 import { AssessmentsService } from '../shared/sevices/assessments.service';
-import { AuthService } from '../shared/sevices/auth.service';
+import { AuthInfoService } from '../shared/sevices/auth-info.service';
 import { UsersService } from '../shared/sevices/users.service';
 
 @Component({
@@ -14,15 +16,15 @@ import { UsersService } from '../shared/sevices/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainPageComponent implements OnInit {
-  assessments: Assesment[] = [];
-  userData: SuccessResponse | undefined;
-  allUsers: User[] = [];
+  assessments$: Observable<Assesment[]> = of([]);
+  allUsers$: Observable<User[]> = of([]);
   currentTab: number = 0;
 
+  userData: SuccessResponse | null = null;
+
   constructor(
-    private authService: AuthService,
+    private readonly authInfoService: AuthInfoService,
     private assessmentsService: AssessmentsService,
-    private cdr:ChangeDetectorRef,
     private router: Router,
     private usersService: UsersService
   ) { }
@@ -30,38 +32,32 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     this.getUserData();
     this.getUserAssessments();
-    if (this.userData?.role === "Admin") {
-      this.getUsers();
-    }
+    this.getUsers();
+  }
+
+  get isAdmin(): boolean {
+    return this.userData?.role === USER_ROLE.ADMIN;
   }
 
   getUserData(): void {
-    this.userData = this.authService.userData;
+    this.userData = this.authInfoService.userData;
   }
 
   getUserAssessments(): void {
-    if (this.userData){
-      this.assessmentsService.getUserAssessments(this.userData.token)
-        .subscribe(result => {
-          this.assessments = result;
-          this.cdr.detectChanges();
-        })
+    if (this.userData) {
+      this.assessments$ = this.assessmentsService.getUserAssessments();
     }
   }
 
-  showGraph(id: number): void{
-    const path = 'main-page/graph'
-    this.router.navigate([path,id]);
+  showGraph(id: number): void {
+    this.router.navigate(['main-page', 'graph', id]);
   }
 
   getUsers(): void {
-    if (this.userData){
-      this.usersService.getUsers(this.userData.token)
-        .subscribe(result => {
-          this.allUsers = result;
-          this.cdr.detectChanges();
-        })
+    if (!this.isAdmin) {
+      return;
     }
-  }
 
+    this.allUsers$ = this.usersService.getUsers();
+  }
 }

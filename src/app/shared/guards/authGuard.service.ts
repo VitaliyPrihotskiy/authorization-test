@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthInfoService } from '../sevices/auth-info.service';
 
 @Injectable({
 providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authInfoService: AuthInfoService, private router: Router) { }
 
   canActivate(): boolean {
     return this.checkAccessRights();
@@ -18,8 +18,8 @@ export class AuthGuardService implements CanActivate {
   }
 
   checkAccessRights(): boolean {
-    if (!this.authService.isAuthenticated()) {
-      this.authService.setRedirectUrl(this.router.url);
+    if (!this.authInfoService.isAuthenticated()) {
+      this.authInfoService.setRedirectUrl(this.router.url);
       this.router.navigate(['login']);
       return false;
     }

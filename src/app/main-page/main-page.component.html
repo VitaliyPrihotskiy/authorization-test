@@ -1,4 +1,4 @@
-<div class="header" *ngIf="userData?.role === 'Admin'">
+<div class="header" *ngIf="isAdmin">
   <nav>
     <button (click)="currentTab = 0">Dashboard</button>
     <button (click)="currentTab = 1">Users</button>
@@ -8,7 +8,7 @@
 <div class="content">
   <ng-container [ngSwitch]="currentTab">
     <ng-container *ngSwitchCase="0">
-      <div *ngFor="let item of assessments">
+      <div *ngFor="let item of assessments$ | async">
         <app-assesment [assesment]="item" (emitId)="showGraph($event)"></app-assesment>
       </div>
     </ng-container>
@@ -20,7 +20,7 @@
           <th>Email</th>
           <th>Groups</th>
         </tr>
-        <tr *ngFor="let user of allUsers">
+        <tr *ngFor="let user of allUsers$ | async">
           <td>{{user.first_name}}</td>
           <td>{{user.last_name}}</td>
           <td>{{user.email}}</td>
