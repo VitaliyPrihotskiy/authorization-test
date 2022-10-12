@@ -1,0 +1,6 @@
+<div *ngIf="assesment" class="card" (click)="getId()">
+  <div class="img-container">
+    <img [src]="assesment.image_url" alt="Assesment image" />
+  </div>
+  <h3>{{assesment.name}}</h3>
+</div>

@@ -1,8 +1,8 @@
 import { AuthComponent } from './auth.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { AuthRoutingModule } from './auth-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -12,7 +12,8 @@ import { AuthRoutingModule } from './auth-routing.module';
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class AuthModule { }

@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthRoutingModule } from './auth/auth-routing.module';
+import { AuthService } from './shared/sevices/auth.service';
 
 @NgModule({
   declarations: [
@@ -14,11 +14,10 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthRoutingModule,
     AuthModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

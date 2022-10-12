@@ -10,7 +10,12 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: "main-page", pathMatch: 'full' },
       { path: 'login', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
-      { path: "main-page", loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule), canActivate: [AuthGuardService] },
+      {
+        path: "main-page",
+        loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule),
+        canActivate: [AuthGuardService],
+        canActivateChild: [AuthGuardService]
+      },
     ]
   }
 ];

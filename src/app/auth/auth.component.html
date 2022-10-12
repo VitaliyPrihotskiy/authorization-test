@@ -1,3 +1,44 @@
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="header">
+    <h2>Authorization</h2>
+  </div>
+
+  <form class="sign-in" *ngIf="form" [formGroup]="form" (ngSubmit)="!submit && onFormSubmit()">
+    <span>user@deepersignals.com</span>
+    <div class="field">
+      <label class="field-name">Login: </label>
+      <input
+        class="form-input"
+        placeholder="Email"
+        formControlName="email"
+        id="field-username">
+    </div>
+    <span class="error-msg" *ngIf="email?.touched && email?.errors?.['required'] ">This field is required!</span>
+
+    <div class="field">
+      <label class="field-name">Password: </label>
+      <input
+        class="form-input"
+        placeholder="Password"
+        formControlName="password"
+        id="field-password"
+        type="password">
+     </div>
+    <span class="error-msg" *ngIf="password?.touched && password?.errors?.['required']">This field is required!</span>
+
+    <div class="field">
+      <button
+        class="sign-in-button"
+        name="login-form-submit"
+        [disabled]="form.invalid"
+        type="submit">
+        Log in
+      </button>
+    </div>
+    <span class="error-msg" *ngIf="errorMsg">{{errorMsg}}</span>
+
+  </form>
+</div>
+
 
 

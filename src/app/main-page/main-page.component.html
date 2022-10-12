@@ -1,1 +1,21 @@
 <p>main-page works!</p>
+<div class="header" *ngIf="userData?.role === 'Admin'">
+  <nav>
+    <a>Dashboard</a>
+    <a></a>
+    <a></a>
+    <a></a>
+  </nav>
+</div>
+
+<div class="content">
+  <ng-container [ngSwitch]="currentTab">
+    <ng-container *ngSwitchCase="0">
+      <div *ngFor="let item of assessments">
+        <app-assesment [assesment]="item" (emitId)="showGraph($event)"></app-assesment>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="1"></ng-container>
+  </ng-container>
+</div>
+
