@@ -1,8 +1,7 @@
-import { UserType } from './../shared/constants/user-type.constant';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/sevices/auth.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject} from 'rxjs';
 
 @Component({
   selector: 'app-auth',

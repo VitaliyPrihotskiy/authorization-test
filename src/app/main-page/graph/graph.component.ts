@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GraphData } from 'src/app/shared/models/graph-data.model';
 import { AssessmentsService } from 'src/app/shared/sevices/assessments.service';
 import { AuthService } from 'src/app/shared/sevices/auth.service';
@@ -7,7 +7,8 @@ import { AuthService } from 'src/app/shared/sevices/auth.service';
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
-  styleUrls: ['./graph.component.scss']
+  styleUrls: ['./graph.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GraphComponent implements OnInit {
   id!: number;
@@ -15,6 +16,7 @@ export class GraphComponent implements OnInit {
   charType: string = 'bar';
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private assessmentsService: AssessmentsService,
     private authService: AuthService,
@@ -52,5 +54,9 @@ export class GraphComponent implements OnInit {
     };
     console.log(chartData)
     return chartData;
+  }
+
+  toMainPage(): void {
+    this.router.navigate(['main-page']);
   }
 }

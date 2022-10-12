@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { Router } from '@angular/router';
 import { Assesment } from '../shared/models/assesment.model';
 import { SuccessResponse } from '../shared/models/response.model';
+import { User } from '../shared/models/user.model';
 import { AssessmentsService } from '../shared/sevices/assessments.service';
 import { AuthService } from '../shared/sevices/auth.service';
+import { UsersService } from '../shared/sevices/users.service';
 
 @Component({
   selector: 'app-main-page',
@@ -14,17 +16,23 @@ import { AuthService } from '../shared/sevices/auth.service';
 export class MainPageComponent implements OnInit {
   assessments: Assesment[] = [];
   userData: SuccessResponse | undefined;
+  allUsers: User[] = [];
   currentTab = 0;
+  
   constructor(
     private authService: AuthService,
     private assessmentsService: AssessmentsService,
     private cdr:ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private usersService: UsersService
   ) { }
 
   ngOnInit(): void {
     this.getUserData();
     this.getUserAssessments();
+    if (this.userData?.role === "Admin") {
+      this.getUsers();
+    }
   }
 
   getUserData(): void {
@@ -40,9 +48,20 @@ export class MainPageComponent implements OnInit {
         })
     }
   }
-  showGraph(id: number){
+
+  showGraph(id: number): void{
     const path = 'main-page/graph'
     this.router.navigate([path,id]);
+  }
+
+  getUsers(): void {
+    if (this.userData){
+      this.usersService.getUsers(this.userData.token)
+        .subscribe(result => {
+          this.allUsers = result;
+          this.cdr.detectChanges();
+        })
+    }
   }
 
 }

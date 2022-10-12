@@ -1,10 +1,7 @@
-<p>main-page works!</p>
 <div class="header" *ngIf="userData?.role === 'Admin'">
   <nav>
-    <a>Dashboard</a>
-    <a></a>
-    <a></a>
-    <a></a>
+    <button class="draw meet" (click)="currentTab = 0">Dashboard</button>
+    <button class="draw meet" (click)="currentTab = 1">Users</button>
   </nav>
 </div>
 
@@ -15,7 +12,22 @@
         <app-assesment [assesment]="item" (emitId)="showGraph($event)"></app-assesment>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="1"></ng-container>
+    <ng-container *ngSwitchCase="1">
+      <table>
+        <tr>
+          <th>Firstname</th>
+          <th>LastName</th>
+          <th>Email</th>
+          <th>Groups</th>
+        </tr>
+        <tr *ngFor="let user of allUsers">
+          <td>{{user.first_name}}</td>
+          <td>{{user.last_name}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.groups}}</td>
+        </tr>
+      </table>
+    </ng-container>
   </ng-container>
 </div>
 
