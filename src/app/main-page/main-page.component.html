@@ -1,7 +1,7 @@
 <div class="header" *ngIf="userData?.role === 'Admin'">
   <nav>
-    <button class="draw meet" (click)="currentTab = 0">Dashboard</button>
-    <button class="draw meet" (click)="currentTab = 1">Users</button>
+    <button (click)="currentTab = 0">Dashboard</button>
+    <button (click)="currentTab = 1">Users</button>
   </nav>
 </div>
 

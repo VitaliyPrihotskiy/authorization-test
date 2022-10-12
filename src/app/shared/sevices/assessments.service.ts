@@ -20,6 +20,6 @@ export class AssessmentsService {
   getUserAssessmentGraph(token: string, id: number): Observable<GraphData> {
     const headers = new HttpHeaders().set("X-Token", token);
     const params = new HttpParams().set('id', id);
-    return this.http.get<GraphData>(environment.api.userAssessmentGraph, {headers,params});
+    return this.http.get<GraphData>(environment.api.userAssessmentGraph, {headers, params});
   }
 }

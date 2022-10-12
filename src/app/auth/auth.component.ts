@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/sevices/auth.service';
-import { Subject} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -9,7 +9,7 @@ import { Subject} from 'rxjs';
   styleUrls: ['./auth.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnDestroy {
   private readonly ngUnsubscribe = new Subject<void>();
 
   form: FormGroup;
@@ -32,10 +32,7 @@ export class AuthComponent implements OnInit {
     });
    }
 
-  ngOnInit(): void {
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -52,18 +49,13 @@ export class AuthComponent implements OnInit {
       email: form.email,
       password: form.password,
     };
+
     try {
       this.authService.auth(options)
-      // .pipe(takeUntil(this.ngUnsubscribe))//може щось з підпискою, впринципі вона тут не треба
-      // .subscribe((auth: any) => {
-      //   console.log(auth) //не спрацьовує
-      // })
     }
     catch (error) {
-      console.log(error);
       this.submit = false;
       this.errorMsg = "Wrong email or password";
     }
   }
-
 }

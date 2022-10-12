@@ -1,4 +1,3 @@
-import { AuthModule } from './auth/auth.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -14,7 +13,6 @@ import { AuthService } from './shared/sevices/auth.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule,
     HttpClientModule
   ],
   providers: [AuthService],

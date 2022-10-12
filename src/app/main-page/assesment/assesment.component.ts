@@ -9,7 +9,7 @@ import { Assesment } from 'src/app/shared/models/assesment.model';
 })
 export class AssesmentComponent {
   @Input() assesment: Assesment | null = null;
-  @Output() emitId: EventEmitter<any> = new EventEmitter();
+  @Output() emitId: EventEmitter<number> = new EventEmitter();
 
   getId(): void {
     this.emitId.emit(this.assesment?.id);

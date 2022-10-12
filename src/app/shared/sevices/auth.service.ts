@@ -37,7 +37,7 @@ export class AuthService implements OnDestroy {
             this.router.navigate([this.redirectUrl]);
             return { response: response }
           },
-          (error:any) => {console.log(error)
+          (error:any) => {
             return { error: error }
           }
         );
@@ -46,5 +46,4 @@ export class AuthService implements OnDestroy {
   public isAuthenticated(): boolean {
     return this.authenticated;
   }
-
 }

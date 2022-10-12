@@ -21,14 +21,13 @@ export class GraphComponent implements OnInit {
     private assessmentsService: AssessmentsService,
     private authService: AuthService,
     private cdr:ChangeDetectorRef,
-
   ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params?.['id'];
     const token = this.getUserToken();
     this.assessmentsService.getUserAssessmentGraph(token, this.id)
-      .subscribe( data => {console.log(data)
+      .subscribe( data => {
         this.charType = data.type;
         this.graphData = this.toChartData(data);
         this.cdr.detectChanges();
@@ -52,7 +51,6 @@ export class GraphComponent implements OnInit {
       labels,
       datasets:[{label:"percent", data}]
     };
-    console.log(chartData)
     return chartData;
   }
 

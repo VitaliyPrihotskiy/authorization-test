@@ -17,8 +17,8 @@ export class MainPageComponent implements OnInit {
   assessments: Assesment[] = [];
   userData: SuccessResponse | undefined;
   allUsers: User[] = [];
-  currentTab = 0;
-  
+  currentTab: number = 0;
+
   constructor(
     private authService: AuthService,
     private assessmentsService: AssessmentsService,
